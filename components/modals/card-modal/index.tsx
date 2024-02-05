@@ -23,7 +23,7 @@ const CardModal = () => {
     queryFn: () => fetcher(`/api/cards/${id}`),
   });
 
-  const { data: auditLogsData } = useQuery<AuditLog>({
+  const { data: auditLogsData } = useQuery<AuditLog[]>({
     queryKey: ["card-logs", id],
     queryFn: () => fetcher(`/api/cards/${id}/logs`),
   });
