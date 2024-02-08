@@ -73,5 +73,6 @@ Running commands with npm `npm run [command]`
 
 ## TODO
 - [ ] Remove lorem ipsum logo.
-- [ ] Fix weird margin bottom on marketing page.
-- [ ] Fix logo not showing on sheets.anbanized
+- [ ] Implement payment method.
+- [x] Fix weird margin bottom on marketing page.
+- [x] Fix logo not showing on sheets.anbanized
