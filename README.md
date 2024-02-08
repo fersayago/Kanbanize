@@ -1,4 +1,4 @@
-# Kanbanize
+# Kanbanized
 
 This is an application to implement kanban framework in your personal projects. This is a [Next.js](https://nextjs.org/) 14 project implementing Server Actions, Prisma, Stripe, Tailwind and MySQL.
 
@@ -74,4 +74,4 @@ Running commands with npm `npm run [command]`
 ## TODO
 - [ ] Remove lorem ipsum logo.
 - [ ] Fix weird margin bottom on marketing page.
-- [ ] Fix logo not showing on sheets.
+- [ ] Fix logo not showing on sheets.anbanized

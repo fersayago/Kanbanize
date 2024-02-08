@@ -1,4 +1,4 @@
 export const siteConfig = {
-  name: "Kanbanize",
+  name: "Kanbanized",
   description: "Collaborate, manage projects, and reach mew productivity peaks",
 };
