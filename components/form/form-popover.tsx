@@ -13,6 +13,7 @@ import {
 import { useAction } from "@/hooks/use-action";
 import { Button } from "@/components/ui/button";
 import { createBoard } from "@/actions/create-board";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 import { FormInput } from "./form-input";
 import FormSubmit from "./form-submit";
@@ -31,6 +32,7 @@ const FormPopover = ({
   align,
   sideOffset = 0,
 }: FormPopoverProps) => {
+  const proModal = useProModal();
   const router = useRouter();
   const closeRef = useRef<ElementRef<"button">>(null);
 
@@ -38,10 +40,11 @@ const FormPopover = ({
     onSuccess: (data) => {
       toast.success("Board created successfully");
       closeRef.current?.click();
-      router.push(`/board/${data.id}`)
+      router.push(`/board/${data.id}`);
     },
     onError: (error) => {
       toast.error(error);
+      proModal.onOpen();
     },
   });
 

@@ -10,6 +10,7 @@ import createAuditLog from "@/lib/create-audit-log";
 import { InputType, ReturnType } from "./types";
 import { createSafeAction } from "@/lib/create-safe-action";
 import { CreateBoard } from "./schema";
+import { incrementAvailableCount, hasAvailableCount } from "@/lib/org-limit";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
@@ -20,20 +21,30 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     };
   }
 
+  const canCreate = await hasAvailableCount();
+
+  if (!canCreate) {
+    return {
+      error:
+        "No available boards. Upgrade your workspace to create more boards.",
+    };
+  }
+
   const { title, image } = data;
 
-  const [
-    imageId,
-    imageThumbUrl,
-    imageFullUrl,
-    imageLinkHTML,
-    imageUserName,
-  ] = image.split("|");
+  const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] =
+    image.split("|");
 
-  if (!imageId || !imageThumbUrl || !imageFullUrl || !imageLinkHTML || !imageUserName) {
+  if (
+    !imageId ||
+    !imageThumbUrl ||
+    !imageFullUrl ||
+    !imageLinkHTML ||
+    !imageUserName
+  ) {
     return {
-      error: "Missing fields. Failed to create board."
-    }
+      error: "Missing fields. Failed to create board.",
+    };
   }
 
   let board;
@@ -50,6 +61,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         imageUserName,
       },
     });
+
+    await incrementAvailableCount();
 
     await createAuditLog({
       entityTitle: board.title,

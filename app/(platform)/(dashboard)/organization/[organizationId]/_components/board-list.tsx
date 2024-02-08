@@ -7,6 +7,8 @@ import { db } from "@/lib/db";
 import Hint from "@/components/hint";
 import FormPopover from "@/components/form/form-popover";
 import { Skeleton } from "@/components/ui/skeleton";
+import { MAX_FREE_BOARDS } from "@/constants/boards";
+import { getAvailableCount } from "@/lib/org-limit";
 
 const BoardList = async () => {
   const { orgId } = auth();
@@ -14,6 +16,8 @@ const BoardList = async () => {
   if (!orgId) {
     return redirect("/select-org");
   }
+
+  const availableCount = await getAvailableCount();
 
   const boards = await db.board.findMany({
     where: {
@@ -48,7 +52,9 @@ const BoardList = async () => {
             role="button"
           >
             <p className="text-sm">Create new board</p>
-            <span className="text-xs">5 remaining</span>
+            <span className="text-xs">{
+              `${MAX_FREE_BOARDS - availableCount} boards remaining`
+            }</span>
             <Hint
               sideOffset={40}
               description={`Free workspaces can have up to 5 open boards. For unlimited boards upgrade this workspace.`}
